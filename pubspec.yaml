@@ -1,7 +1,6 @@
 name: version_tracker
-description: Track app version and build version
-version: 0.0.1
-author: Kevin Morelli
+description: Local version and build tracker plugin. Provides the ability to keep track of previous installations and easily migrate data between upgrades.
+version: 0.0.2
 homepage: https://github.com/KevMorelli/version_tracker
 
 environment:
