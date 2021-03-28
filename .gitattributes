@@ -1,1 +1,1 @@
-*.* linguist-language=Dart
+src/main/example/* linguist-vendored
