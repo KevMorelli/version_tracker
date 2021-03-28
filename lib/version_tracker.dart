@@ -61,7 +61,7 @@ class VersionTracker {
       _currentBuild == build && _isFirstLaunchForCurrentBuild;
 
   /// Start tracking versions and builds
-  void track() async {
+  Future<void> track() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
@@ -104,27 +104,26 @@ class VersionTracker {
     _buildHistory = versionTrail[_buildsKey].toList();
   }
 
-  // Show all the available data in a formatted string
+  /// Show all the available data in a formatted string
   @override
   String toString() {
     var sb = StringBuffer();
-    sb.writeln();
     sb.writeln('VersionTracker');
-    sb.writeln('IsFirstLaunchEver:              $_isFirstLaunchEver');
+    sb.writeln();
+    sb.writeln('IsFirstLaunchEver: $_isFirstLaunchEver');
     sb.writeln(
         'IsFirstLaunchForCurrentVersion: $_isFirstLaunchForCurrentVersion');
-    sb.writeln(
-        'IsFirstLaunchForCurrentBuild:   $_isFirstLaunchForCurrentBuild');
+    sb.writeln('IsFirstLaunchForCurrentBuild: $_isFirstLaunchForCurrentBuild');
     sb.writeln();
-    sb.writeln('CurrentVersion:                 $_currentVersion');
-    sb.writeln('PreviousVersion:                $_previousVersion');
-    sb.writeln('FirstInstalledVersion:          $_firstInstalledVersion');
-    sb.writeln('VersionHistory:                 $_versionHistory.join(", ")');
+    sb.writeln('CurrentVersion: $_currentVersion');
+    sb.writeln('PreviousVersion: $_previousVersion');
+    sb.writeln('FirstInstalledVersion: $_firstInstalledVersion');
+    sb.writeln('VersionHistory: ${_versionHistory.join(", ")}');
     sb.writeln();
-    sb.writeln('CurrentBuild:                   $_currentBuild');
-    sb.writeln('PreviousBuild:                  $_previousBuild');
-    sb.writeln('FirstInstalledBuild:            $_firstInstalledBuild');
-    sb.writeln('BuildHistory:                   $_buildHistory.join(", ")');
+    sb.writeln('CurrentBuild: $_currentBuild');
+    sb.writeln('PreviousBuild: $_previousBuild');
+    sb.writeln('FirstInstalledBuild: $_firstInstalledBuild');
+    sb.writeln('BuildHistory: ${_buildHistory.join(", ")}');
     return sb.toString();
   }
 
