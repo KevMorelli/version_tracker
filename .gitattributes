@@ -1,2 +1,2 @@
-src/main/example/* linguist-vendored
-*.rb linguist-detectable=false
+* linguist-vendored
+*.dart linguist-vendored=false
