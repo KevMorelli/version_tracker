@@ -1,3 +1,2 @@
 src/main/example/* linguist-vendored
-src/main/example/macos/Podfile linguist-detectable=false
-src/main/example/ios/Podfile linguist-detectable=false
+*.rb linguist-detectable=false
