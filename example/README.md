@@ -1,36 +1,36 @@
-[![Pub Version](https://img.shields.io/pub/v/version_tracker)](https://pub.dev/packages/version_tracker)
-[![GitHub](https://img.shields.io/github/license/KevMorelli/version_tracker)](https://github.com/Boehrsi/on_upgrade/blob/main/LICENSE)
-[![likes](https://badges.bar/version_tracker/likes)](https://pub.dev/packages/version_tracker/score)
-[![popularity](https://badges.bar/version_tracker/popularity)](https://pub.dev/packages/version_tracker/score)
-[![pub points](https://badges.bar/version_tracker/pub%20points)](https://pub.dev/packages/version_tracker/score) 
+# example
 
-# VersionTracker
 
-Local version and build tracker plugin. Provides the ability to keep track of previous installations and easily migrate data between upgrades.
 
-## Usage
 
-Call this on the main function
 
-```dart
-var vt = VersionTracker();
-await vt.track();
-```
+A new Flutter project.
 
-Then call these whenever you want (in these examples the user has launched a bunch of previous versions, and this is the first time he's launched the new version 1.0.11):
+## Getting Started
 
-```dart
-vt.isFirstLaunchEver;        // false
-vt.isFirstLaunchForVersion;  // true
-vt.isFirstLaunchForBuild;    // true
+This project is a starting point for a Flutter application.
 
-vt.currentVersion;           // 1.0.11
-vt.previousVersion;          // 1.0.10
-vt.firstInstalledVersion;    // 1.0.0
-vt.versionHistory;           // [ 1.0.0, 1.0.1, 1.0.2, 1.0.3, 1.0.10, 1.0.11 ]
+A few resources to get you started if this is your first Flutter project:
 
-vt.currentBuild;             // 18
-vt.previousBuild;            // 15
-vt.firstInstalledBuild;      // 1
-vt.buildHistory;             // [ 1, 2, 3, 4, 5, 8, 9, 10, 11, 13, 15, 18 ]
- ```
+- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+
+
+
+For help getting started with Flutter, view our
+[online documentation](https://flutter.dev/docs), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

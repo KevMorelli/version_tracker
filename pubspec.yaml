@@ -1,6 +1,6 @@
 name: version_tracker
 description: Local version and build tracker plugin. Provides the ability to keep track of previous installations and easily migrate data between upgrades.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/KevMorelli/version_tracker
 
 environment:
