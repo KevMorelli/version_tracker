@@ -1,1 +1,3 @@
 src/main/example/* linguist-vendored
+src/main/example/macos/Podfile linguist-vendored
+src/main/example/ios/Podfile linguist-vendored
