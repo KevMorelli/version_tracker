@@ -1,1 +1,2 @@
-src/main/example/* linguist-vendored
+* linguist-vendored
+*.dart linguist-vendored=false
