@@ -53,55 +53,57 @@ class VersionTracker {
   List<String?>? _buildHistory;
 
   /// Determines if this is the first launch of the app for a specified version number.
-  bool isFirstLaunchForVersion(String version) =>
-      _currentVersion == version && _isFirstLaunchForCurrentVersion!;
+  bool isFirstLaunchForVersion(String version) => _currentVersion == version && _isFirstLaunchForCurrentVersion!;
 
   /// Determines if this is the first launch of the app for a specified build number.
-  bool isFirstLaunchForBuild(String build) =>
-      _currentBuild == build && _isFirstLaunchForCurrentBuild!;
+  bool isFirstLaunchForBuild(String build) => _currentBuild == build && _isFirstLaunchForCurrentBuild!;
 
   /// Start tracking versions and builds
-  Future<void> track() async {
+  Future<void> track({int? versionHistoryMaxLength, int? buildHistoryMaxLength}) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
-    Map<String, List<String?>> versionTrail = Map<String, List<String?>>();
+    Map<String, List<String?>> historyTrail = Map<String, List<String?>>();
 
-    _isFirstLaunchEver = !sharedPreferences.containsKey(_versionsKey) ||
-        !sharedPreferences.containsKey(_buildsKey);
+    _isFirstLaunchEver = !sharedPreferences.containsKey(_versionsKey) || !sharedPreferences.containsKey(_buildsKey);
     if (_isFirstLaunchEver!)
-      versionTrail.addAll({_versionsKey: [], _buildsKey: []});
+      historyTrail.addAll({_versionsKey: [], _buildsKey: []});
     else
-      versionTrail.addAll({
+      historyTrail.addAll({
         _versionsKey: _readHistory(sharedPreferences, _versionsKey).toList(),
         _buildsKey: _readHistory(sharedPreferences, _buildsKey).toList()
       });
 
+    // Handle versions
     _currentVersion = packageInfo.version;
+
+    _isFirstLaunchForCurrentVersion = !historyTrail[_versionsKey]!.contains(_currentVersion);
+    if (_isFirstLaunchForCurrentVersion!) historyTrail[_versionsKey]!.add(_currentVersion);
+
+    var versionsToRemove = historyTrail[_versionsKey]!.length - versionHistoryMaxLength!;
+    if (versionsToRemove > 0) historyTrail[_versionsKey]!.removeRange(1, versionsToRemove + 1);
+
+    _previousVersion = _getPrevious(historyTrail, _versionsKey);
+    _firstInstalledVersion = historyTrail[_versionsKey]!.first;
+    _versionHistory = historyTrail[_versionsKey]!.toList();
+
+    // Handle builds
     _currentBuild = packageInfo.buildNumber;
 
-    _isFirstLaunchForCurrentVersion =
-        !versionTrail[_versionsKey]!.contains(_currentVersion);
-    if (_isFirstLaunchForCurrentVersion!)
-      versionTrail[_versionsKey]!.add(_currentVersion);
+    _isFirstLaunchForCurrentBuild = !historyTrail[_buildsKey]!.contains(_currentBuild);
+    if (_isFirstLaunchForCurrentBuild!) historyTrail[_buildsKey]!.add(_currentBuild);
 
-    _isFirstLaunchForCurrentBuild =
-        !versionTrail[_buildsKey]!.contains(_currentBuild);
-    if (_isFirstLaunchForCurrentBuild!)
-      versionTrail[_buildsKey]!.add(_currentBuild);
+    var buildsToRemove = historyTrail[_buildsKey]!.length - buildHistoryMaxLength!;
+    if (buildsToRemove > 0) historyTrail[_buildsKey]!.removeRange(1, buildsToRemove + 1);
 
     if (_isFirstLaunchForCurrentVersion! || _isFirstLaunchForCurrentBuild!) {
-      _writeHistory(
-          sharedPreferences, _versionsKey, versionTrail[_versionsKey]!);
-      _writeHistory(sharedPreferences, _buildsKey, versionTrail[_buildsKey]!);
+      _writeHistory(sharedPreferences, _versionsKey, historyTrail[_versionsKey]!);
+      _writeHistory(sharedPreferences, _buildsKey, historyTrail[_buildsKey]!);
     }
 
-    _previousVersion = _getPrevious(versionTrail, _versionsKey);
-    _previousBuild = _getPrevious(versionTrail, _buildsKey);
-    _firstInstalledVersion = versionTrail[_versionsKey]!.first;
-    _firstInstalledBuild = versionTrail[_buildsKey]!.first;
-    _versionHistory = versionTrail[_versionsKey]!.toList();
-    _buildHistory = versionTrail[_buildsKey]!.toList();
+    _previousBuild = _getPrevious(historyTrail, _buildsKey);
+    _firstInstalledBuild = historyTrail[_buildsKey]!.first;
+    _buildHistory = historyTrail[_buildsKey]!.toList();
   }
 
   /// Show all the available data in a formatted string
@@ -111,8 +113,7 @@ class VersionTracker {
     sb.writeln('VersionTracker');
     sb.writeln();
     sb.writeln('IsFirstLaunchEver: $_isFirstLaunchEver');
-    sb.writeln(
-        'IsFirstLaunchForCurrentVersion: $_isFirstLaunchForCurrentVersion');
+    sb.writeln('IsFirstLaunchForCurrentVersion: $_isFirstLaunchForCurrentVersion');
     sb.writeln('IsFirstLaunchForCurrentBuild: $_isFirstLaunchForCurrentBuild');
     sb.writeln();
     sb.writeln('CurrentVersion: $_currentVersion');
@@ -127,15 +128,13 @@ class VersionTracker {
     return sb.toString();
   }
 
-  List<String?> _readHistory(SharedPreferences preferences, String key) =>
-      preferences.getString(key)!.split('|');
+  List<String?> _readHistory(SharedPreferences preferences, String key) => preferences.getString(key)!.split('|');
 
-  void _writeHistory(
-          SharedPreferences preferences, String key, List<String?> history) =>
-      preferences.setString(key, history.join('|'));
+  void _writeHistory(SharedPreferences preferences, String key, List<String?> historyTrail) =>
+      preferences.setString(key, historyTrail.join('|'));
 
-  String? _getPrevious(Map<String, List<String?>> versionTrail, String key) {
-    var trail = versionTrail[key]!;
+  String? _getPrevious(Map<String, List<String?>> historyTrail, String key) {
+    var trail = historyTrail[key]!;
     return (trail.length >= 2) ? trail[trail.length - 2] : null;
   }
 }

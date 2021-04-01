@@ -17,6 +17,13 @@ var vt = VersionTracker();
 await vt.track();
 ```
 
+You can also set the max number for version and build history by giving a value to ``buildHistoryMaxLength`` and ``versionHistoryMaxLength`` in the track function.
+
+```dart
+var vt = VersionTracker();
+await vt.track(buildHistoryMaxLength: 10, versionHistoryMaxLength: 10);
+```
+
 Then call these whenever you want (in these examples the user has launched a bunch of previous versions, and this is the first time he's launched the new version 1.0.11):
 
 ```dart

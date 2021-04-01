@@ -10,7 +10,7 @@ void main() async {
 
   versionTracker = VersionTracker();
 
-  await versionTracker.track();
+  await versionTracker.track(buildHistoryMaxLength: 10, versionHistoryMaxLength: 10);
 
   runApp(MyApp());
 }
