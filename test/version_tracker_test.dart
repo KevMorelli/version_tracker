@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:version_tracker/version_tracker.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -7,26 +8,27 @@ void main() {
   group('version_tracker Tests', () {
     TestWidgetsFlutterBinding.ensureInitialized();
 
-    const channel = MethodChannel('dev.fluttercommunity.plus/package_info');
-    final log = <MethodCall>[];
-
-    final VersionTracker versionTracker = VersionTracker();
-
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
+    const packageInfoChannel = MethodChannel('dev.fluttercommunity.plus/package_info');
+    final packageInfoLog = <MethodCall>[];
+    packageInfoChannel.setMockMethodCallHandler((MethodCall methodCall) async {
+      packageInfoLog.add(methodCall);
       switch (methodCall.method) {
         case 'getAll':
           return <String, dynamic>{
             'appName': 'version_tracker_example',
-            'buildNumber': '1',
+            'buildNumber': '2',
             'packageName': 'io.flutter.plugins.packageinfoexample',
-            'version': '1.0',
+            'version': '1.1',
           };
         default:
           assert(false);
           return null;
       }
     });
+
+    SharedPreferences.setMockInitialValues({'VersionTracker.Versions': '1.0|1.1', 'VersionTracker.Builds': '1|2'});
+
+    final VersionTracker versionTracker = VersionTracker();
 
     setUp(() async {
       PackageInfo.disablePackageInfoPlatformOverride = true;
@@ -35,12 +37,12 @@ void main() {
     });
 
     tearDown(() {
-      log.clear();
+      packageInfoLog.clear();
     });
 
     test('Test first launch ever', () {
-        final isFirstLaunchEver = versionTracker.isFirstLaunchEver;
-        expect(isFirstLaunchEver, false);
+      final isFirstLaunchEver = versionTracker.isFirstLaunchEver;
+      expect(isFirstLaunchEver, false);
     });
 
     test('Test isFirstLaunchForCurrentVersion', () {
@@ -65,14 +67,14 @@ void main() {
 
     test('Test currentVersion', () {
       var currentVersion = versionTracker.currentVersion;
-      expect(currentVersion, "1.0");
+      expect(currentVersion, "1.1");
     });
 
     test('Test previousVersion', () {
       var previousVersion = versionTracker.previousVersion;
       expect(previousVersion, "1.0");
     });
-    
+
     test('Test firstInstalledVersion', () {
       var firstInstalledVersion = versionTracker.firstInstalledVersion;
       expect(firstInstalledVersion, "1.0");
@@ -85,7 +87,7 @@ void main() {
 
     test('Test currentBuild', () {
       var currentBuild = versionTracker.currentBuild;
-      expect(currentBuild, "1");
+      expect(currentBuild, "2");
     });
 
     test('Test previousBuild', () {
