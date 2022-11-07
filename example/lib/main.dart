@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:version_tracker/version_tracker.dart';
 
-VersionTracker versionTracker;
+late final VersionTracker versionTracker;
 
 void main() async {
   // Without this, SharePreferences doesn't work because is called before the runApp
@@ -23,13 +23,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Version Tracker'),
+      home: const MyHomePage(title: 'Version Tracker'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({required this.title});
   final String title;
 
   @override

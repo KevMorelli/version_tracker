@@ -1,43 +1,26 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:version_tracker/version_tracker.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 void main() {
   group('version_tracker Tests', () {
     TestWidgetsFlutterBinding.ensureInitialized();
 
-    const packageInfoChannel = MethodChannel('dev.fluttercommunity.plus/package_info');
-    final packageInfoLog = <MethodCall>[];
-    packageInfoChannel.setMockMethodCallHandler((MethodCall methodCall) async {
-      packageInfoLog.add(methodCall);
-      switch (methodCall.method) {
-        case 'getAll':
-          return <String, dynamic>{
-            'appName': 'version_tracker_example',
-            'buildNumber': '2',
-            'packageName': 'io.flutter.plugins.packageinfoexample',
-            'version': '1.1',
-          };
-        default:
-          assert(false);
-          return null;
-      }
-    });
-
+    PackageInfo.setMockInitialValues(
+      appName: 'version_tracker_example',
+      packageName: 'io.flutter.plugins.packageinfoexample',
+      version: '1.1',
+      buildNumber: '2',
+      buildSignature: 'Mock',
+      installerStore: 'Mock',
+    );
     SharedPreferences.setMockInitialValues({'VersionTracker.Versions': '1.0|1.1', 'VersionTracker.Builds': '1|2'});
 
     final VersionTracker versionTracker = VersionTracker();
 
     setUp(() async {
-      PackageInfo.disablePackageInfoPlatformOverride = true;
-
       await versionTracker.track();
-    });
-
-    tearDown(() {
-      packageInfoLog.clear();
     });
 
     test('Test first launch ever', () {
