@@ -1,3 +1,11 @@
+## 2.3.0
+- Update dependencies and SDK version
+
+## 2.2.0
+- Flutter 3 support
+- Updated the example app
+- Test fixes
+
 ## 2.1.1
 - Allow the max number of versions and builds to be optional
 
