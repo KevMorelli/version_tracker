@@ -1,3 +1,6 @@
+## 2.4.1
+- Format code
+
 ## 2.4.0
 - Update dependencies and SDK version
 

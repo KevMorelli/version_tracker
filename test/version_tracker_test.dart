@@ -15,7 +15,8 @@ void main() {
       buildSignature: 'Mock',
       installerStore: 'Mock',
     );
-    SharedPreferences.setMockInitialValues({'VersionTracker.Versions': '1.0|1.1', 'VersionTracker.Builds': '1|2'});
+    SharedPreferences.setMockInitialValues(
+        {'VersionTracker.Versions': '1.0|1.1', 'VersionTracker.Builds': '1|2'});
 
     final VersionTracker versionTracker = VersionTracker();
 
@@ -29,17 +30,20 @@ void main() {
     });
 
     test('Test isFirstLaunchForCurrentVersion', () {
-      final isFirstLaunchForCurrentVersion = versionTracker.isFirstLaunchForCurrentVersion;
+      final isFirstLaunchForCurrentVersion =
+          versionTracker.isFirstLaunchForCurrentVersion;
       expect(isFirstLaunchForCurrentVersion, false);
     });
 
     test('Test isFirstLaunchForCurrentBuild', () {
-      final isFirstLaunchForCurrentBuild = versionTracker.isFirstLaunchForCurrentBuild;
+      final isFirstLaunchForCurrentBuild =
+          versionTracker.isFirstLaunchForCurrentBuild;
       expect(isFirstLaunchForCurrentBuild, false);
     });
 
     test('Test isFirstLaunchForVersion', () {
-      final isFirstLaunchForVersion = versionTracker.isFirstLaunchForVersion('1.0');
+      final isFirstLaunchForVersion =
+          versionTracker.isFirstLaunchForVersion('1.0');
       expect(isFirstLaunchForVersion, false);
     });
 
