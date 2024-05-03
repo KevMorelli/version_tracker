@@ -1,7 +1,5 @@
 [![Pub Version](https://img.shields.io/pub/v/version_tracker)](https://pub.dev/packages/version_tracker)
 [![GitHub](https://img.shields.io/github/license/KevMorelli/version_tracker)](https://github.com/KevMorelli/version_tracker/blob/main/LICENSE)
-[![likes](https://img.shields.io/pub/likes/version_tracker)](https://pub.dev/packages/version_tracker/score)
-[![pub points](https://img.shields.io/pub/points/version_tracker)](https://pub.dev/packages/version_tracker/score) 
 
 # VersionTracker
 

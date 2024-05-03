@@ -1,3 +1,6 @@
+## 2.4.0
+- Update dependencies and SDK version
+
 ## 2.3.0
 - Update dependencies and SDK version
 
@@ -19,6 +22,5 @@
 - Update readme
 
 ## 1.0.0
-
 - Plugin
 - Example
