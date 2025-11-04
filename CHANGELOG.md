@@ -1,3 +1,8 @@
+## 3.0.0
+- Update dependencies and SDK version
+- Fix warnings
+- Fix issue [#5](https://github.com/KevMorelli/version_tracker/issues/5)
+
 ## 2.4.1
 - Format code
 
