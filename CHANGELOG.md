@@ -1,3 +1,12 @@
+## 3.1.0
+- Widen the `package_info_plus` constraint to `>=9.0.0 <11.0.0` so the package can be
+  used alongside `package_info_plus` 10.x. Version 10 only bumps `win32` from 5 to 6 and
+  changes no Dart API that this package uses (`PackageInfo.fromPlatform`), so both major
+  versions are supported.
+- No change to the supported SDK range: apps on older SDKs continue to resolve
+  `package_info_plus` 9.x, while apps meeting version 10's own floors (Dart 3.11, Flutter
+  3.41.6) can resolve 10.x.
+
 ## 3.0.0
 - Update dependencies and SDK version
 - Fix warnings
